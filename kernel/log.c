@@ -211,6 +211,7 @@ commit()
 //   modify bp->data[]
 //   log_write(bp)
 //   brelse(bp)
+// 所有的对磁盘block的写都会被翻译成对log的写， end_op才会通过log真正的写入磁盘
 void
 log_write(struct buf *b)
 {
@@ -226,6 +227,7 @@ log_write(struct buf *b)
     if (log.lh.block[i] == b->blockno)   // log absorption
       break;
   }
+  // 添加代写入的block到log结构体的block中, 并将log中记录待写入块的计数加1
   log.lh.block[i] = b->blockno;
   if (i == log.lh.n) {  // Add new block to log?
     bpin(b);

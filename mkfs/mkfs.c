@@ -251,6 +251,8 @@ balloc(int used)
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
+
+// 这个函数的主要作用是将指定的数据追加到一个 inode（索引节点）对应的文件末尾(在sb的位置的末尾)。
 void
 iappend(uint inum, void *xp, int n)
 {

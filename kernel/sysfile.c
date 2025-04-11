@@ -248,11 +248,12 @@ create(char *path, short type, short major, short minor)
   struct inode *ip, *dp;
   char name[DIRSIZ];
 
+  // 得到父目录的inode信息
   if((dp = nameiparent(path, name)) == 0)
     return 0;
-
+    
   ilock(dp);
-
+  // 查找父目录中是否已经存在带创建文件的同名文件
   if((ip = dirlookup(dp, name, 0)) != 0){
     iunlockput(dp);
     ilock(ip);
@@ -262,6 +263,7 @@ create(char *path, short type, short major, short minor)
     return 0;
   }
 
+  // 在父亲inode所属的dev上分配一个binode为后面link这个新节点做准备, ip是新创建的inode
   if((ip = ialloc(dp->dev, type)) == 0){
     iunlockput(dp);
     return 0;

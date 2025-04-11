@@ -1,3 +1,11 @@
+## My-README
+
+本项目是在分析xv6源码过程中添加了部分大白话（非专业）的注释，帮助理解xv6的各组成部分的原理。
+
+
+
+## xv6-README
+
 xv6 is a re-implementation of Dennis Ritchie's and Ken Thompson's Unix
 Version 6 (v6).  xv6 loosely follows the structure and style of v6,
 but is implemented for a modern RISC-V multiprocessor using ANSI C.

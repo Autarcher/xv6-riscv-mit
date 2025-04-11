@@ -205,6 +205,7 @@ ialloc(uint dev, short type)
   for(inum = 1; inum < sb.ninodes; inum++){
     bp = bread(dev, IBLOCK(inum, sb));
     dip = (struct dinode*)bp->data + inum%IPB;
+    // dip->type == 0标识此device中的数据块是可用的
     if(dip->type == 0){  // a free inode
       memset(dip, 0, sizeof(*dip));
       dip->type = type;
@@ -289,6 +290,11 @@ idup(struct inode *ip)
 
 // Lock the given inode.
 // Reads the inode from disk if necessary.
+// ilock的原理是基于spin自旋锁，但是有一个sleep和
+// wakeup逻辑实现程序在等待锁的时候睡眠和当等待的锁被施放的时候被唤醒。
+// 当等待的锁已经被上锁的时候,程序会调用 sched 函数让出 CPU，
+// 进入调度器(一个chan队列, 会标识自己属于哪个chan队列而不是真的有一个chan队列, chan序号与锁也就是inode一一对应)，
+// 等待被唤醒。当持有锁的进程释放锁时iunlock会调用wakeup遍历所有进程，将与锁对应的chan队列上的程序唤醒。
 void
 ilock(struct inode *ip)
 {
@@ -558,6 +564,10 @@ dirlookup(struct inode *dp, char *name, uint *poff)
     panic("dirlookup not DIR");
 
   for(off = 0; off < dp->size; off += sizeof(de)){
+
+    // readi的逻辑是查找inode也就是这个dp中的所有数据块(这里面每个数据块是
+    // 存储在dp->dev指向的设备中的）中的dirent信息，通过dp->dev找到块存储的具体设备，
+    // 通过off判断当前读到的位置，将块中的dirent依次赋值到&de指向的地址。
     if(readi(dp, 0, (uint64)&de, off, sizeof(de)) != sizeof(de))
       panic("dirlookup read");
     if(de.inum == 0)
