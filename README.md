@@ -4,6 +4,43 @@
 
 
 
+## 正常成功启动XV6操作系统
+
+参考这个网址下载xv6仓库（你也可用参考官网）：
+
+https://xv6.dgs.zone/labs/requirements/lab1.html（2020年的课程）
+
+> MIT的xv6课程官网:https://pdos.csail.mit.edu/6.S081
+>
+> 实验内容总览https://github.com/YHaoNan/xv6-2020-labs
+
+### rqeuriment
+
+1.qemu版本需求为5.1.0
+
+> 安装流程
+>
+> 运行make qemu时卡住
+> 运行时卡在qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 3 nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk device,drive=x0,bus=virtio-mmio-bus.0
+>
+> 无法继续运行也没有报错。
+>
+> 可以先用Ctrl+A松开再按X组合键正常退出。
+>
+> 是qemu-system-misc更新后和xv6的kernel不兼容，所以要下载以前版本的qemu-system-misc
+>
+> ```shell
+> wget https://download.qemu.org/qemu-5.1.0.tar.xz
+> tar xf qemu-5.1.0.tar.xz
+> cd qemu-5.1.0
+> ./configure --disable-kvm --disable-werror --prefix=/usr/local --target-list="riscv64-softmmu"
+> make -j$(nproc)
+> ```
+
+2. ubuntu 22.04(其他版本应该也可用但是本项目采用的是此版本)
+
+
+
 ## xv6-README
 
 xv6 is a re-implementation of Dennis Ritchie's and Ken Thompson's Unix
