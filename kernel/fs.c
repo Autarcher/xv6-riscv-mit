@@ -532,6 +532,7 @@ writei(struct inode *ip, int user_src, uint64 src, uint off, uint n)
     log_write(bp);
     brelse(bp);
   }
+  log_write
 
   if(off > ip->size)
     ip->size = off;

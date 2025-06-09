@@ -8,7 +8,7 @@
 
 参考这个网址下载xv6仓库（你也可用参考官网）：
 
-https://xv6.dgs.zone/labs/requirements/lab1.html（2020年的课程）
+2020年的课程:https://xv6.dgs.zone/labs/requirements/lab1.html  
 
 > MIT的xv6课程官网:https://pdos.csail.mit.edu/6.S081
 >
@@ -38,6 +38,30 @@ https://xv6.dgs.zone/labs/requirements/lab1.html（2020年的课程）
 > ```
 
 2. ubuntu 22.04(其他版本应该也可用但是本项目采用的是此版本)
+
+## 调试教程:
+
+Vscode调试配置教程:https://zhuanlan.zhihu.com/p/501901665（xv6的启动还是不要用这个）
+
+> 简单的调试
+>
+> ```shell
+> #在xv6目录下执行
+> make qemu-gdb
+> #在另外一个窗口的相同目录下执行
+> gdb-multiarch
+> ```
+>
+> > 注意:
+> >
+> > 调试自己写的用户态程序需要手动添加符号文件eg:
+> >
+> > ```shell
+> > # _find 文件名与你在Makefile文件中添加的名字一致
+> > add-symbol-file user/_find
+> > ```
+> >
+> > 
 
 
 
